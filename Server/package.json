@@ -4,7 +4,7 @@
   "main": "index.js",
   "type":"module", 
    "scripts": {
-    "start": "Server.js",
+    "start": "node Server.js",
     "dev": "nodemon Server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
