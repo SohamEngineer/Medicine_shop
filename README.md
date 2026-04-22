@@ -9,6 +9,20 @@ A full-stack e-commerce platform for purchasing medicines, now enhanced with **M
 
 ---
 
+## 🚀 Live Deployment
+
+The application is fully deployed and accessible at the following links:
+
+*   **Frontend (Vercel):** [https://medicine-shop-frontend-gzjnwl0s6-hackersmkgs-projects.vercel.app](https://medicine-shop-frontend-gzjnwl0s6-hackersmkgs-projects.vercel.app)
+*   **Backend (Render):** [https://medicine-shop-backend-r1ai.onrender.com](https://medicine-shop-backend-r1ai.onrender.com)
+
+**Testing Instructions:**
+1.  Open the Frontend link.
+2.  Click the **"Ask MediBot"** button at the bottom right to start a medical consultation.
+3.  Browse the **Shop** page to see the newly redesigned medicine catalogue.
+
+---
+
 ## Features
 
 ### Core E-Commerce
