@@ -15,7 +15,7 @@ app.add_middleware(
 )
 
 client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY", "your-api-key-here"),
+    api_key=os.getenv("OPENAI_API_KEY", "skprojdAJ9c5bEdjHBn1eqQd1Frh8T4HMLk1jpF1vSeiOpUUe5j7bAnT3RbQmBTjKX-MsH8lvJk9awTT3BlbkFJNxpzM0dPTDaqBZuGf1fAmlrKbrRTdLvSmER33c9q1RfeCHCIvoneCgUPEUHwqTV6tMcJkVfkwA"),
     http_client=None # Explicitly disable custom http client to avoid proxy conflicts
 )
 
