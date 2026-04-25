@@ -16,7 +16,7 @@ app.add_middleware(
 
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY", "skprojdAJ9c5bEdjHBn1eqQd1Frh8T4HMLk1jpF1vSeiOpUUe5j7bAnT3RbQmBTjKX-MsH8lvJk9awTT3BlbkFJNxpzM0dPTDaqBZuGf1fAmlrKbrRTdLvSmER33c9q1RfeCHCIvoneCgUPEUHwqTV6tMcJkVfkwA"),
-    http_client=None # Explicitly disable custom http client to avoid proxy conflicts
+    http_client=None  # Explicitly disable custom http client to avoid proxy conflicts
 )
 
 SYSTEM_PROMPT = """You are MediBot, a helpful assistant for an online medicine shop.
@@ -34,21 +34,26 @@ Rules:
 - For symptoms, suggest OTC medicines and always say "consult a doctor if symptoms persist"
 - Format responses cleanly — use bullet points where helpful"""
 
+
 class Message(BaseModel):
     role: str
     content: str
+
 
 class ChatRequest(BaseModel):
     messages: List[Message]
     user_preferences: Optional[dict] = None
 
+
 class ChatResponse(BaseModel):
     reply: str
     suggested_medicines: Optional[List[str]] = []
 
+
 @app.get("/health")
 def health():
     return {"status": "ok", "service": "MediChat AI"}
+
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
@@ -56,9 +61,9 @@ async def chat(req: ChatRequest):
         messages = [{"role": "system", "content": SYSTEM_PROMPT}]
 
         if req.user_preferences:
-            pref_str = f"\nUser profile: Age={req.user_preferences.get('age','unknown')}, " \
-                       f"Allergies={req.user_preferences.get('allergies','none')}, " \
-                       f"Conditions={req.user_preferences.get('conditions','none')}"
+            pref_str = f"\nUser profile: Age={req.user_preferences.get('age', 'unknown')}, " \
+                       f"Allergies={req.user_preferences.get('allergies', 'none')}, " \
+                       f"Conditions={req.user_preferences.get('conditions', 'none')}"
             messages[0]["content"] += pref_str
 
         for m in req.messages[-10:]:

@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/add", async (req, res) => {
   try {
     const { name, email, mobile, password } = req.body;
-console.log(req.body)
+    console.log(req.body);
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -16,9 +16,9 @@ console.log(req.body)
     }
 
     // Save new user
-    const hashPassword= await bcrypt.hash(password,10)
-    console.log(hashPassword)
-    const newUser = new User({ name, email, mobile, password:hashPassword });
+    const hashPassword = await bcrypt.hash(password, 10);
+    console.log(hashPassword);
+    const newUser = new User({ name, email, mobile, password: hashPassword });
     await newUser.save();
 
     res.status(200).json({ message: "User registered successfully!" });

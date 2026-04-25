@@ -8,27 +8,24 @@ import loginRouter from "./Router/loginroutes.js";
 import productRoute from "./Router/addProRout.js";
 import productRouter from "./Router/productFetch.js";
 import chatRouter from "./Router/chat.js";
-dotenv.config()
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(morgan("dev"))
+app.use(morgan("dev"));
 
 //  Use Environment Variables for MongoDB Connection
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/medicine_shop";
 
 mongoose
-  .connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(MONGO_URI)
   .then(() => console.log(" MongoDB Connected Successfully"))
   .catch((err) => console.error(" MongoDB Connection Error:", err));
 
 //  Middleware
 app.use(cors({ origin: "*" }));
-app.use(express.json()); // 
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //  Routes
