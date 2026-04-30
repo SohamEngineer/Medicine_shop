@@ -15,7 +15,8 @@ router.post("/", async (req, res) => {
     });
 
     if (!response.ok) {
-      throw new Error(`AI service responded with ${response.status}`);
+      const errText = await response.text();
+      throw new Error(`AI service responded with ${response.status}: ${errText}`);
     }
 
     const data = await response.json();
@@ -28,6 +29,7 @@ router.post("/", async (req, res) => {
     });
     res.status(500).json({
       error: "AI service unavailable. Please check server logs.",
+      details: err.message
     });
   }
 });
