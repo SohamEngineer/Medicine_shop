@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 import os
 import json
-from openai import OpenAI
+from groq import Groq
 
 app = FastAPI(title="MediChat AI Service", version="1.0.0")
 
@@ -15,14 +15,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-api_key = os.getenv("OPENAI_API_KEY")
+api_key = os.getenv("GROQ_API_KEY")
 client = None
 if api_key:
-    client = OpenAI(
-        api_key=api_key,
-        http_client=None  # Explicitly disable custom http client to avoid proxy conflicts
-    )
-
+    client = Groq(api_key=api_key)
 
 SYSTEM_PROMPT = """You are MediBot, a helpful assistant for an online medicine shop.
 You help users:
@@ -57,14 +53,14 @@ class ChatResponse(BaseModel):
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "service": "MediChat AI"}
+    return {"status": "ok", "service": "MediChat AI", "provider": "Groq"}
 
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
     try:
         if not client:
-            raise HTTPException(status_code=500, detail="OpenAI API key is missing. Please add OPENAI_API_KEY to environment variables.")
+            raise HTTPException(status_code=500, detail="GROQ_API_KEY is missing. Please set it in environment variables.")
 
         messages = [{"role": "system", "content": SYSTEM_PROMPT}]
 
@@ -78,7 +74,7 @@ async def chat(req: ChatRequest):
             messages.append({"role": m.role, "content": m.content})
 
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="llama-3.1-8b-instant",
             messages=messages,
             max_tokens=500,
             temperature=0.7,
@@ -86,7 +82,6 @@ async def chat(req: ChatRequest):
 
         reply = response.choices[0].message.content
 
-        # Extract medicine names mentioned (basic extraction)
         common_medicines = [
             "paracetamol", "ibuprofen", "aspirin", "cetirizine", "omeprazole",
             "amoxicillin", "metformin", "atorvastatin", "pantoprazole", "azithromycin",
@@ -107,15 +102,15 @@ async def suggest_medicine(data: dict):
     if not symptom:
         raise HTTPException(status_code=400, detail="symptom is required")
 
+    if not client:
+        raise HTTPException(status_code=500, detail="GROQ_API_KEY is missing.")
+
     prompt = f"Suggest 2-3 common OTC medicines for: {symptom}. " \
              f"Return JSON: {{\"medicines\": [{{\"name\": str, \"use\": str, \"note\": str}}]}}"
 
     try:
-        if not client:
-            raise HTTPException(status_code=500, detail="OpenAI API key is missing. Please add OPENAI_API_KEY to environment variables.")
-
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="llama-3.1-8b-instant",
             messages=[
                 {"role": "system", "content": "You are a pharmacist assistant. Return only valid JSON."},
                 {"role": "user", "content": prompt}
@@ -124,7 +119,6 @@ async def suggest_medicine(data: dict):
             temperature=0.3,
         )
         content = response.choices[0].message.content
-        # Basic cleanup in case GPT returns markdown code blocks
         if "```json" in content:
             content = content.split("```json")[1].split("```")[0].strip()
         elif "```" in content:
