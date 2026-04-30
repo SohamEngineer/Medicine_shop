@@ -14,28 +14,28 @@ function About() {
       id:1,
       name: "Dr. Felica Queen",
       title: "Sr. Psychologist",
-      image: "./src/image/doctor5.jpg",
+      image: "/image/doctor5.jpg",
       alt: "Portrait of Dr. Felica Queen, a senior psychologist, smiling and wearing a white coat with a stethoscope around her neck."
     },
     {
       id:2,
      name: "Dr. Felica Queen",
       title: "Sr. Psychologist",
-      image: "./src/image/doctor1.jpg",
+      image: "/image/doctor1.jpg",
       alt: "Portrait of Dr. Felica Queen, a senior psychologist, smiling and wearing a white coat with a stethoscope around her neck." 
     },
     {
       id:3,
      name: "Dr. Felica Queen",
       title: "Sr. Psychologist",
-      image: "./src/image/doctor4.jpg",
+      image: "/image/doctor4.jpg",
       alt: "Portrait of Dr. Felica Queen, a senior psychologist, smiling and wearing a white coat with a stethoscope around her neck." 
     },
     {
       id:4,
      name: "Dr. Felica Queen",
       title: "Sr. Psychologist",
-      image: "./src/image/doctor3.jpg",
+      image: "/image/doctor3.jpg",
       alt: "Portrait of Dr. Felica Queen, a senior psychologist, smiling and wearing a white coat with a stethoscope around her neck." 
     },
   ]

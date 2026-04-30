@@ -88,13 +88,13 @@ const Home = () => {
       id: 1,
       title: "Daily Routine for Good Health",
       description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
-      image: "./src/image/slider2.jpg",
+      image: "/image/slider2.jpg",
     },
     {
       id: 2,
       title: "Sun Protection Cream SPF50",
       description: "Protect your skin with the best SPF50 sunscreen.",
-      image: "./src/image/sun_cream.jpg",
+      image: "/image/sun_cream.jpg",
     },
   ];
 

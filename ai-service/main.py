@@ -15,10 +15,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-client = OpenAI(
-    api_key=os.getenv("OPENAI_API_KEY"),
-    http_client=None  # Explicitly disable custom http client to avoid proxy conflicts
-)
+api_key = os.getenv("OPENAI_API_KEY")
+client = None
+if api_key:
+    client = OpenAI(
+        api_key=api_key,
+        http_client=None  # Explicitly disable custom http client to avoid proxy conflicts
+    )
+
 
 SYSTEM_PROMPT = """You are MediBot, a helpful assistant for an online medicine shop.
 You help users:
@@ -59,6 +63,9 @@ def health():
 @app.post("/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
     try:
+        if not client:
+            raise HTTPException(status_code=500, detail="OpenAI API key is missing. Please add OPENAI_API_KEY to environment variables.")
+
         messages = [{"role": "system", "content": SYSTEM_PROMPT}]
 
         if req.user_preferences:
@@ -104,6 +111,9 @@ async def suggest_medicine(data: dict):
              f"Return JSON: {{\"medicines\": [{{\"name\": str, \"use\": str, \"note\": str}}]}}"
 
     try:
+        if not client:
+            raise HTTPException(status_code=500, detail="OpenAI API key is missing. Please add OPENAI_API_KEY to environment variables.")
+
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[

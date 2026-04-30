@@ -13,7 +13,7 @@ const PharmaCare = () => {
   return (
     <div className="pharmacare-container">
       <header className="header">
-        <div className="logo"><img src="./src/image/image.png" alt="Logo" /></div>
+        <div className="logo"><img src="/image/image.png" alt="Logo" /></div>
         <div className="search-bar">
           <input type="text" placeholder="Search" />
           <button><FaSearch /></button>
