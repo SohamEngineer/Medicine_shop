@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import "./Chatbot.css";
 
-const AI_SERVICE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const AI_SERVICE_URL = import.meta.env.VITE_API_BASE_URL || "https://medicine-shop-backend-r1ai.onrender.com";
+
 
 const QUICK_PROMPTS = [
   "I have a headache",
